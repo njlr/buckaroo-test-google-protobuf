@@ -8,7 +8,7 @@ include_defs('//BUCKAROO_DEPS')
 # You can use the system protoc if you like, but it is better to
 # use the one compiled from the Buckaroo package, since this will
 # guarantee a version match with the protobuf run-time.
-protoc_target = 'google.protobuf//:protoc'
+protoc_target = read_config('protobuf', 'protoc_target', 'google.protobuf//:protoc')
 
 # Generates C++ code for the addressbook schema
 genrule(
@@ -17,7 +17,7 @@ genrule(
   srcs = [
     'addressbook.proto',
   ],
-  cmd = 'mkdir $OUT && $(location ' + protoc_target + ') --cpp_out=$OUT addressbook.proto',
+  cmd = 'mkdir $OUT && $(exe ' + protoc_target + ') --cpp_out=$OUT addressbook.proto',
 )
 
 # Convenience function for extracting a file out of a genrule result.
